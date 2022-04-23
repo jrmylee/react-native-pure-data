@@ -13,8 +13,6 @@ var _axios = _interopRequireDefault(require("axios"));
 
 var _resolveAssetSource = _interopRequireDefault(require("react-native/Libraries/Image/resolveAssetSource"));
 
-var _reactNativeFs = _interopRequireDefault(require("react-native-fs"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 // TODO: remove and delegate
@@ -27,16 +25,8 @@ var registerAudioController = RNPureData.registerAudioController,
 
 var registerPatch = function registerPatch(audioControllerId, patchId, source) {
   return new Promise(function (resolve, reject) {
-    console.log(source);
-
     if (typeof source === "string") {
-      _reactNativeFs["default"].readFile(source) // 'base64' for binary 
-      .then(function (patch) {
-        console.log("filepath");
-        console.log(patch);
-        nativeRegisterPatch(audioControllerId, patchId, patch);
-        resolve();
-      })["catch"](console.error);
+      nativeRegisterPatch(audioControllerId, patchId, source);
     } else {
       var url = source.uri;
       (0, _axios["default"])({
