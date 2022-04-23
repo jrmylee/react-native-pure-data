@@ -13,6 +13,8 @@ var _axios = _interopRequireDefault(require("axios"));
 
 var _resolveAssetSource = _interopRequireDefault(require("react-native/Libraries/Image/resolveAssetSource"));
 
+var _reactNativeFs = _interopRequireDefault(require("react-native-fs"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 // TODO: remove and delegate
@@ -24,20 +26,30 @@ var registerAudioController = RNPureData.registerAudioController,
     registerReceivers = RNPureData.registerReceivers;
 
 var registerPatch = function registerPatch(audioControllerId, patchId, source) {
-  return Promise.resolve() // TODO: We need to extend this functionality to compiled asset resolution.
-  //       This is only yet compatible for network-defined assets, like those
-  //       provided by metro.
-  .then(function () {
-    var url = source.uri;
-    return (0, _axios["default"])({
-      url: url,
-      method: "get"
+  console.log(source);
+
+  if (typeof source === "string") {
+    _reactNativeFs["default"].readFile(source) // 'base64' for binary 
+    .then(function (patch) {
+      console.log("filepath");
+      console.log(patch);
+      nativeRegisterPatch(audioControllerId, patchId, patch);
+    })["catch"](console.error);
+  } else {
+    Promise.resolve() // TODO: We need to extend this functionality to compiled asset resolution.
+    //       This is only yet compatible for network-defined assets, like those
+    //       provided by metro.
+    .then(function () {
+      var url = source.uri;
+      return (0, _axios["default"])({
+        url: url,
+        method: "get"
+      });
+    }).then(function (_ref) {
+      var data = _ref.data;
+      nativeRegisterPatch(audioControllerId, patchId, data);
     });
-  }).then(function (_ref) {
-    var data = _ref.data;
-    console.log(data);
-    nativeRegisterPatch(audioControllerId, patchId, data);
-  });
+  }
 };
 
 var unregisterAudioController = function unregisterAudioController(audioControllerId) {
