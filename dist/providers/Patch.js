@@ -147,7 +147,7 @@ var Patch = function Patch(_ref) {
 };
 
 Patch.propTypes = {
-  source: _propTypes["default"].oneOfType([_propTypes["default"], _propTypes["default"].number, _propTypes["default"].shape({
+  source: _propTypes["default"].oneOfType([_propTypes["default"].string, _propTypes["default"].number, _propTypes["default"].shape({
     uri: _propTypes["default"].string.isRequired
   })]).isRequired
 };
