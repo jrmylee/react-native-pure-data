@@ -39,6 +39,7 @@ var registerPatch = function registerPatch(audioControllerId, patchId, source) {
         method: "get"
       }).then(function (_ref) {
         var data = _ref.data;
+        console.log(data);
         nativeRegisterPatch(audioControllerId, patchId, data);
         resolve();
       });
