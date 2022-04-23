@@ -87,7 +87,7 @@ var Patch = function Patch(_ref) {
   }, [audioControllerId, id, setSync]); // TODO: use the actual contents for the deep comparison thing...
 
   (0, _useDeepCompareEffect["default"])(function () {
-    registerPatch(audioControllerId, id, resolvedAssetSource).then(function () {
+    registerPatch(audioControllerId, id, resolvedAssetSource || source).then(function () {
       return setSync(new Date());
     });
     return undefined;
