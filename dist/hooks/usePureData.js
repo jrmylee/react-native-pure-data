@@ -27,6 +27,7 @@ var registerPatch = function registerPatch(audioControllerId, patchId, source) {
   return new Promise(function (resolve, reject) {
     if (typeof source === "string") {
       nativeRegisterPatch(audioControllerId, patchId, source);
+      resolve();
     } else {
       var url = source.uri;
       (0, _axios["default"])({
