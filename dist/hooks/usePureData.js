@@ -26,30 +26,29 @@ var registerAudioController = RNPureData.registerAudioController,
     registerReceivers = RNPureData.registerReceivers;
 
 var registerPatch = function registerPatch(audioControllerId, patchId, source) {
-  console.log(source);
+  return new Promise(function (resolve, reject) {
+    console.log(source);
 
-  if (typeof source === "string") {
-    _reactNativeFs["default"].readFile(source) // 'base64' for binary 
-    .then(function (patch) {
-      console.log("filepath");
-      console.log(patch);
-      nativeRegisterPatch(audioControllerId, patchId, patch);
-    })["catch"](console.error);
-  } else {
-    Promise.resolve() // TODO: We need to extend this functionality to compiled asset resolution.
-    //       This is only yet compatible for network-defined assets, like those
-    //       provided by metro.
-    .then(function () {
+    if (typeof source === "string") {
+      _reactNativeFs["default"].readFile(source) // 'base64' for binary 
+      .then(function (patch) {
+        console.log("filepath");
+        console.log(patch);
+        nativeRegisterPatch(audioControllerId, patchId, patch);
+        resolve();
+      })["catch"](console.error);
+    } else {
       var url = source.uri;
-      return (0, _axios["default"])({
+      (0, _axios["default"])({
         url: url,
         method: "get"
+      }).then(function (_ref) {
+        var data = _ref.data;
+        nativeRegisterPatch(audioControllerId, patchId, data);
+        resolve();
       });
-    }).then(function (_ref) {
-      var data = _ref.data;
-      nativeRegisterPatch(audioControllerId, patchId, data);
-    });
-  }
+    }
+  });
 };
 
 var unregisterAudioController = function unregisterAudioController(audioControllerId) {
