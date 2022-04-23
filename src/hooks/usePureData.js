@@ -23,7 +23,10 @@ const registerPatch = (audioControllerId, patchId, source) =>
       const { uri: url } = source;
       return axios({ url, method: "get" });
     })
-    .then(({ data }) => nativeRegisterPatch(audioControllerId, patchId, data));
+    .then(({ data }) => {
+      console.log(data);
+      nativeRegisterPatch(audioControllerId, patchId, data)
+    });
 
 const unregisterAudioController = (audioControllerId) =>
   Promise.resolve().then(() =>
