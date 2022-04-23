@@ -79,7 +79,7 @@ var Patch = function Patch(_ref) {
       unregisterPatch = _usePureData.unregisterPatch,
       registerReceivers = _usePureData.registerReceivers;
 
-  var resolvedAssetSource = !!source ? (0, _resolveAssetSource["default"])(source) : null;
+  var resolvedAssetSource = !!source && typeof source != "string" ? (0, _resolveAssetSource["default"])(source) : null;
   (0, _react.useEffect)(function () {
     return function () {
       return unregisterPatch(audioControllerId, id);
@@ -91,7 +91,7 @@ var Patch = function Patch(_ref) {
       return setSync(new Date());
     });
     return undefined;
-  }, [audioControllerId, id, resolvedAssetSource, unregisterPatch, registerPatch]);
+  }, [audioControllerId, id, resolvedAssetSource, source, unregisterPatch, registerPatch]);
   (0, _useDeepCompareEffect["default"])(function () {
     if (controllerIsActive) {
       // TODO: For maintainability, it would make sense to modulate the props
@@ -147,7 +147,7 @@ var Patch = function Patch(_ref) {
 };
 
 Patch.propTypes = {
-  source: _propTypes["default"].oneOfType([_propTypes["default"].number, _propTypes["default"].shape({
+  source: _propTypes["default"].oneOfType([_propTypes["default"], _propTypes["default"].number, _propTypes["default"].shape({
     uri: _propTypes["default"].string.isRequired
   })]).isRequired
 };
