@@ -86,10 +86,6 @@ var AudioController = function AudioController(_ref) {
     var inputEnabled = audioProps.inputEnabled,
         mixingEnabled = audioProps.mixingEnabled;
 
-    if (inputEnabled !== false) {
-      console.warn("Sorry, the inputEnabled prop is not currently supported. Your supplied value will be ignored.");
-    }
-
     if (mixingEnabled !== false) {
       console.warn("Sorry, the mixingEnabled prop is not currently supported. Your supplied value will be ignored.");
     }
@@ -102,7 +98,6 @@ var AudioController = function AudioController(_ref) {
   return /*#__PURE__*/_react["default"].createElement(_contexts.AudioControllerContext.Provider, {
     value: _objectSpread(_objectSpread({}, audioProps), {}, {
       /* force disabled */
-      inputEnabled: false,
       mixingEnabled: false,
 
       /* context propagation */

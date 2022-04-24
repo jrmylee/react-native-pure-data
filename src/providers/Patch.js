@@ -19,7 +19,7 @@ const Patch = ({ source, children, ...extraProps }) => {
   } = useAudioController();
   const { registerPatch, unregisterPatch, registerReceivers } = usePureData();
 
-  const resolvedAssetSource = !!source ? resolveAssetSource(source) : null;
+  const resolvedAssetSource = (!!source && typeof source != "string") ? resolveAssetSource(source) : null;
 
   useEffect(() => () => unregisterPatch(audioControllerId, id), [
     audioControllerId,
@@ -29,7 +29,7 @@ const Patch = ({ source, children, ...extraProps }) => {
 
   // TODO: use the actual contents for the deep comparison thing...
   useDeepCompareEffect(() => {
-    registerPatch(audioControllerId, id, resolvedAssetSource).then(() =>
+    registerPatch(audioControllerId, id, resolvedAssetSource || source).then(() =>
       setSync(new Date())
     );
     return undefined;
@@ -37,6 +37,7 @@ const Patch = ({ source, children, ...extraProps }) => {
     audioControllerId,
     id,
     resolvedAssetSource,
+    source,
     unregisterPatch,
     registerPatch,
   ]);
@@ -96,6 +97,7 @@ const Patch = ({ source, children, ...extraProps }) => {
 
 Patch.propTypes = {
   source: PropTypes.oneOfType([
+    PropTypes.string,
     PropTypes.number,
     PropTypes.shape({ uri: PropTypes.string.isRequired }),
   ]).isRequired,

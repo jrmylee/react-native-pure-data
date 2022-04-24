@@ -14,19 +14,20 @@ const {
   registerReceivers,
 } = RNPureData;
 
-const registerPatch = (audioControllerId, patchId, source) =>
-  Promise.resolve()
-    // TODO: We need to extend this functionality to compiled asset resolution.
-    //       This is only yet compatible for network-defined assets, like those
-    //       provided by metro.
-    .then(() => {
+const registerPatch = (audioControllerId, patchId, source) => {
+  return new Promise((resolve, reject) => {
+    if(typeof source === "string"){
+      nativeRegisterPatch(audioControllerId, patchId, source);
+      resolve();
+    }else{
       const { uri: url } = source;
-      return axios({ url, method: "get" });
-    })
-    .then(({ data }) => {
-      console.log(data);
-      nativeRegisterPatch(audioControllerId, patchId, data)
-    });
+      axios({ url, method: "get" }).then(({ data }) => {
+        nativeRegisterPatch(audioControllerId, patchId, data);
+        resolve();
+      });
+    }
+  })
+}
 
 const unregisterAudioController = (audioControllerId) =>
   Promise.resolve().then(() =>

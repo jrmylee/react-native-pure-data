@@ -15,8 +15,7 @@ var _resolveAssetSource = _interopRequireDefault(require("react-native/Libraries
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
+// TODO: remove and delegate
 var RNPureData = _reactNative.NativeModules.PureData;
 var registerAudioController = RNPureData.registerAudioController,
     nativeUnregisterAudioController = RNPureData.unregisterAudioController,
@@ -26,9 +25,6 @@ var registerAudioController = RNPureData.registerAudioController,
 
 var registerPatch = function registerPatch(audioControllerId, patchId, source) {
   return new Promise(function (resolve, reject) {
-    console.log(source);
-    console.log(_typeof(source));
-
     if (typeof source === "string") {
       nativeRegisterPatch(audioControllerId, patchId, source);
       resolve();
@@ -39,7 +35,6 @@ var registerPatch = function registerPatch(audioControllerId, patchId, source) {
         method: "get"
       }).then(function (_ref) {
         var data = _ref.data;
-        console.log(data);
         nativeRegisterPatch(audioControllerId, patchId, data);
         resolve();
       });

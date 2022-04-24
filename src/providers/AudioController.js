@@ -32,11 +32,6 @@ const AudioController = ({
 
   useDeepCompareEffect(() => {
     const { inputEnabled, mixingEnabled } = audioProps;
-    if (inputEnabled !== false) {
-      console.warn(
-        `Sorry, the inputEnabled prop is not currently supported. Your supplied value will be ignored.`
-      );
-    }
     if (mixingEnabled !== false) {
       console.warn(
         `Sorry, the mixingEnabled prop is not currently supported. Your supplied value will be ignored.`
@@ -51,7 +46,6 @@ const AudioController = ({
       value={{
         ...audioProps,
         /* force disabled */
-        inputEnabled: false,
         mixingEnabled: false,
         /* context propagation */
         id,
